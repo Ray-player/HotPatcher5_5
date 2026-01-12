@@ -13,7 +13,6 @@
 #include "FlibHotPatcherCoreHelper.h"
 #include "FlibHotPatcherEditorHelper.h"
 #include "HotPatcherLog.h"
-#include "SCookAndPakSettingsWindow.h"
 
 // ENGINE HEADER
 #include "AssetToolsModule.h"
@@ -440,24 +439,13 @@ void FHotPatcherEditorModule::MakeCookAndPakActionsSubMenu(UToolMenu* Menu)
 			FText(),
 			FNewMenuDelegate::CreateLambda([this,Platform](FMenuBuilder& SubMenuBuilder){
 				SubMenuBuilder.AddMenuEntry(
-					LOCTEXT("GeneratePak", "Generate Pak"), FText(),
+					LOCTEXT("AnalysisDependencies", "AnalysisDependencies"), FText(),
 					FSlateIcon(*StyleSetName,TEXT("WorldBrowser.LevelsMenuBrush")),
-					FUIAction(FExecuteAction::CreateLambda([this,Platform](){
-						// 创建并显示新窗口
-						TSharedRef<SWindow> Window = SNew(SWindow)
-							.Title(LOCTEXT("CookAndPakWindowTitle", "Cook and Pak Settings"))
-							.ClientSize(FVector2D(600, 300))
-							.SupportsMinimize(false)
-							.SupportsMaximize(false)
-							[ 
-								SNew(SCookAndPakSettingsWindow)
-								.TargetPlatform(Platform)
-								.EditorModule(this)
-							]
-							.SizingRule(ESizingRule::FixedSize);
-
-							FSlateApplication::Get().AddModalWindow(Window, nullptr);
-					})));
+					FUIAction(FExecuteAction::CreateRaw(this, &FHotPatcherEditorModule::OnCookAndPakPlatform, Platform,true)), NAME_None, EUserInterfaceActionType::Button);
+				SubMenuBuilder.AddMenuEntry(
+					LOCTEXT("NoDependencies", "NoDependencies"), FText(),
+					FSlateIcon(*StyleSetName,TEXT("Level.SaveIcon16x")),
+					FUIAction(FExecuteAction::CreateRaw(this, &FHotPatcherEditorModule::OnCookAndPakPlatform, Platform,false)), NAME_None, EUserInterfaceActionType::Button);
 			}
 			));
 	}

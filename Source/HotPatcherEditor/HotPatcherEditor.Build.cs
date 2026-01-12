@@ -57,8 +57,7 @@ public class HotPatcherEditor : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"RenderCore", 
-				"DesktopWidgets"
+				"RenderCore"
 				// ... add private dependencies that you statically link with here ...	
 			}
 		);
