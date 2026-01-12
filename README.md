@@ -62,7 +62,7 @@ AddPublicDefinitions("AUTOLOAD_SHADERLIB_AT_RUNTIME", false);
 
 1. 函数/宏/结构体等变更：
    
-   ```
+   ```C++
    //FlibReflectionHelper.cpp 26行与36行方法变更
    //原版
    Property->ExportTextItem(Value,Property->ContainerPtrToValuePtr<uint8>(Object),nullptr,Object,0);
@@ -89,7 +89,7 @@ AddPublicDefinitions("AUTOLOAD_SHADERLIB_AT_RUNTIME", false);
    ```
 2. 构造函数变更：
    
-   ```
+   ```C++
    //FlibHotPatcherCoreHelper.cpp 343行需要构造共享指针后创建FZenStoreWriter
     TSharedRef<FZenCookArtifactReader> CookRead= MakeShared<FZenCookArtifactReader>(ResolvedProjectPath, ResolvedMetadataPath, TargetPlatform);
     PackageWriter = new FZenStoreWriter(ResolvedProjectPath, ResolvedMetadataPath, TargetPlatform, CookRead);
