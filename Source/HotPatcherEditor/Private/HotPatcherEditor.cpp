@@ -434,7 +434,7 @@ void FHotPatcherEditorModule::MakeCookAndPakActionsSubMenu(UToolMenu* Menu)
 	for (ETargetPlatform Platform : GetAllowCookPlatforms())
 	{
 		FString PlatformName = THotPatcherTemplateHelper::GetEnumNameByValue(Platform);
-		FToolMenuEntry& PlatformEntry = Section.AddSubMenu(FName(*PlatformName),
+		Section.AddSubMenu(FName(*PlatformName),
 			FText::Format(LOCTEXT("Platform", "{0}"), UKismetTextLibrary::Conv_StringToText(THotPatcherTemplateHelper::GetEnumNameByValue(Platform))),
 			FText(),
 			FNewMenuDelegate::CreateLambda([this,Platform](FMenuBuilder& SubMenuBuilder){
