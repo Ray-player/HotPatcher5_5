@@ -39,6 +39,11 @@
 			"Name": "CmdHandler",
 			"Type": "Developer",
 			"LoadingPhase": "PostConfigInit"
+		},
+		{
+			"Name": "PakLoadRt",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault"
 		}
 	]
 }
