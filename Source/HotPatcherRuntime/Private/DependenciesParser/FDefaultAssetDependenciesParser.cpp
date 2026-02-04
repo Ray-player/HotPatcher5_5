@@ -220,7 +220,7 @@ TSet<FName> FAssetDependenciesParser::GatherAssetDependicesInfoRecursively(
 	UFlibAssetManageHelper::GetAssetsDataByPackageName(InLongPackageName.ToString(),CurrentAssetData);
 
 	bool bGetDependenciesSuccess = false;
-	EAssetRegistryDependencyType::Type TotalType = EAssetRegistryDependencyType::None;
+	FAssetRegistryDependencyType TotalType;
 
 	for (const auto& DepType : InAssetDependencyTypes)
 	{
@@ -232,14 +232,11 @@ TSet<FName> FAssetDependenciesParser::GatherAssetDependicesInfoRecursively(
 	{
 		SCOPED_NAMED_EVENT_TEXT("GetDependencies",FColor::Red);
 		PRAGMA_DISABLE_DEPRECATION_WARNINGS
-			bGetDependenciesSuccess = InAssetRegistryModule.Get().GetDependencies(InLongPackageName, CurrentAssetDependencies,
-
-#if UE_VERSION_OLDER_THAN(5,3,0)
+			bGetDependenciesSuccess = InAssetRegistryModule.Get().GetDependencies(
+				InLongPackageName,
+				CurrentAssetDependencies,
 				TotalType
-#else
-				UE::AssetRegistry::EDependencyCategory::Package
-#endif
-		);
+			);
 		PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 		for(const auto& SkipForDependencies:ParserSkipAssetByDependencies(CurrentAssetData,CurrentAssetDependencies))
