@@ -28,6 +28,8 @@
 #include "Settings/ProjectPackagingSettings.h"
 #include "ShaderCompiler.h"
 #include "Async/ParallelFor.h"
+#include "IAssetCompilingManager.h"
+#include "AssetCompilingManager.h"
 #include "CreatePatch/PatcherProxy.h"
 #include "Materials/MaterialInstance.h"
 #include "Materials/MaterialInstanceConstant.h"
@@ -1439,7 +1441,7 @@ TArray<FAssetDetail> UFlibHotPatcherCoreHelper::GetReferenceRecursivelyByClassNa
 	TArray<FAssetDetail> Results;
 	
 	TArray<EAssetRegistryDependencyTypeEx> AssetRegistryDepTypes {EAssetRegistryDependencyTypeEx::Hard};
-	TArray<EAssetRegistryDependencyType::Type> SearchTypes;
+	TArray<FAssetRegistryDependencyType> SearchTypes;
 	for(auto TypeEx:AssetRegistryDepTypes)
 	{
 		SearchTypes.AddUnique(UFlibAssetManageHelper::ConvAssetRegistryDependencyToInternal(TypeEx));

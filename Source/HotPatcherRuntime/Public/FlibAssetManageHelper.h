@@ -13,6 +13,13 @@
 #include "CoreMinimal.h"
 #include "Templates/SharedPointer.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "Misc/EngineVersionComparison.h"
+#if UE_VERSION_NEWER_THAN(5, 2, 0)
+	#include "Misc/AssetRegistryInterface.h"
+	using FAssetRegistryDependencyType = UE::AssetRegistry::EDependencyCategory;
+#else
+	using FAssetRegistryDependencyType = EAssetRegistryDependencyType::Type;
+#endif
 #include "FlibAssetManageHelper.generated.h"
 
 #define JSON_MODULE_LIST_SECTION_NAME TEXT("ModuleList")
@@ -105,10 +112,10 @@ public:
 	static void GetAllInValidAssetInProject(FAssetDependenciesInfo InAllDependencies, TArray<FString> &OutInValidAsset, TArray<FString> InIgnoreModules = {});
 
 
-	static bool GetAssetReferenceByLongPackageName(const FString& LongPackageName,const TArray<EAssetRegistryDependencyType::Type>& SearchAssetDepTypes, TArray<FAssetDetail>& OutRefAsset);
-	static bool GetAssetReference(const FAssetDetail& InAsset,const TArray<EAssetRegistryDependencyType::Type>& SearchAssetDepTypes, TArray<FAssetDetail>& OutRefAsset);
+	static bool GetAssetReferenceByLongPackageName(const FString& LongPackageName,const TArray<FAssetRegistryDependencyType>& SearchAssetDepTypes, TArray<FAssetDetail>& OutRefAsset);
+	static bool GetAssetReference(const FAssetDetail& InAsset,const TArray<FAssetRegistryDependencyType>& SearchAssetDepTypes, TArray<FAssetDetail>& OutRefAsset);
 	static void GetAssetReferenceRecursively(const FAssetDetail& InAsset,
-	                                         const TArray<EAssetRegistryDependencyType::Type>& SearchAssetDepTypes,
+	                                         const TArray<FAssetRegistryDependencyType>& SearchAssetDepTypes,
 	                                         const TArray<FString>& SearchAssetsTypes,
 	                                         TArray<FAssetDetail>& OutRefAsset, bool bRecursive = true);
 	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "GWorld|Flib|AssetManager")
@@ -211,7 +218,7 @@ public:
 	static uint32 ParserAssetDependenciesInfoNumber(const FAssetDependenciesInfo& AssetDependenciesInfo, TMap<FString,uint32>);
 	static FString ParserModuleAssetsNumMap(const TMap<FString,uint32>& InMap);
 
-	static EAssetRegistryDependencyType::Type ConvAssetRegistryDependencyToInternal(const EAssetRegistryDependencyTypeEx& InType);
+	static FAssetRegistryDependencyType ConvAssetRegistryDependencyToInternal(const EAssetRegistryDependencyTypeEx& InType);
 
 	static void GetAssetDataInPaths(const TArray<FString>& Paths, TArray<FAssetData>& OutAssetData);
 	
